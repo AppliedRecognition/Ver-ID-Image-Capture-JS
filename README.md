@@ -7,7 +7,7 @@ The library captures images from mobile device cameras. On desktop browsers it d
 In your HTML file include:
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@1.0.0/dist/verIDImageCapture.min.js" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@1.0.1/dist/verIDImageCapture.min.js" />
 ```
 
 ## Usage example
