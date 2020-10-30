@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Test</title>
+        <script src="src/verIDImageCapture.js"></script>
+        <script type="text/javascript">
+        window.onload = () => {
+            var settings = {
+                "useFrontCamera":false,
+            }
+            settings.images = ["front","back"]
+            settings.prompts = {
+                "front": "Scan the front of your ID",
+                "back": "Scan the back of your ID"
+            }
+            settings.displayCardOutline = true
+            settings.scanBarcode = true
+            VerIDCameraCapture.captureImages(settings).then(urls => {
+                console.log(urls)
+            }).catch(error => {
+                alert(error)
+            })
+        }
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>
