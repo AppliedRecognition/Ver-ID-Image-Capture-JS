@@ -240,8 +240,11 @@ VerIDCameraCapture = {
                     }
                     player.onloadedmetadata = resizeCardOutline
                 }
-
-                player.srcObject = stream
+                if ('srcObject' in player) {
+                    player.srcObject = stream
+                } else {
+                    player.src = URL.createObjectURL(stream)
+                }
                 var buttonSize = 64;
                 var shutterButton = document.createElement("canvas")
                 shutterButton.width = buttonSize
