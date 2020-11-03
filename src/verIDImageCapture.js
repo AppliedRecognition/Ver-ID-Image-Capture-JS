@@ -8,7 +8,7 @@ VerIDCameraCapture = {
      * @param {string} text 
      */
     "generateQRCode": function(text) {
-        return new Promise((resolve, reject) => {
+        return new Promise(function(resolve, reject) {
             function onScriptLoad() {
                 if (scriptLoaded) {
                     return
@@ -74,7 +74,7 @@ VerIDCameraCapture = {
      * })
      */
     "captureImages": function(settings) {
-        return new Promise((resolve, reject) => {
+        return new Promise(function(resolve, reject) {
             if (!this.isCaptureSupported()) {
                 return reject(new Error("Incompatible device or browser"))
             }
@@ -91,7 +91,7 @@ VerIDCameraCapture = {
                     "exact": (settings.useFrontCamera ? "user" : "environment")
                 }
             }
-            navigator.mediaDevices.getUserMedia(cameraSettings).then(stream => {
+            navigator.mediaDevices.getUserMedia(cameraSettings).then(function(stream) {
                 var buttonColor = "#fff"
                 var backgroundColor = "#000"
 
@@ -121,7 +121,7 @@ VerIDCameraCapture = {
 
                 if (settings && settings.images && Array.isArray(settings.images) && settings.images.length > 0) {
                     images = {}
-                    settings.images.forEach(name => {
+                    settings.images.forEach(function(name) {
                         images[name] = null
                     })
                 } else {
@@ -267,14 +267,14 @@ VerIDCameraCapture = {
                 container.appendChild(shutterButton)
 
                 function closeCameraPreview() {
-                    stream.getVideoTracks().forEach(track => {
+                    stream.getVideoTracks().forEach(function(track) {
                         track.stop()
                     })
                     shutterButton.onclick = null;
                     container.parentNode.removeChild(container)
                 }
 
-                shutterButton.onclick = () => {
+                shutterButton.onclick = function() {
                     var canvas = document.createElement("canvas")
                     canvas.width = player.videoWidth
                     canvas.height = player.videoHeight
@@ -291,7 +291,7 @@ VerIDCameraCapture = {
                     }
                     if (!Object.values(images).includes(null)) {
                         closeCameraPreview()
-                        setTimeout(() => {
+                        setTimeout(function() {
                             resolve(images)
                         })
                     } else {
@@ -341,13 +341,13 @@ VerIDCameraCapture = {
                 cancelButton.style.bottom = "30px"
                 cancelButton.style.left = "20px"
                 container.appendChild(cancelButton)
-                cancelButton.onclick = () => {
+                cancelButton.onclick = function() {
                     closeCameraPreview()
-                    setTimeout(() => {
+                    setTimeout(function() {
                         reject(new Error("Capture cancelled by user"))
                     })
                 }                
-            }).catch(error => {
+            }).catch(function(error) {
                 return reject(error)
             })
         })
