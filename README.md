@@ -15,7 +15,7 @@ In your HTML file include:
 ```javascript
 function scanIDCard() {
     // Check that the device is capable of capturing adequate images
-    if (VerIDImageCapture.isCaptureSupported()) {
+    if (VerIDCameraCapture.isCaptureSupported()) {
         // To scan the front and back of an ID card
         var settings = {
             "images": ["front","back"],
@@ -26,7 +26,7 @@ function scanIDCard() {
             "displayCardOutline": true
         }
         // Capture the images
-        VerIDImageCapture.captureImages(settings).then(function(images) {
+        VerIDCameraCapture.captureImages(settings).then(function(images) {
             var img = document.createElement("img")
             img.src = images.front
             // Display image of the front of the ID card
@@ -36,7 +36,7 @@ function scanIDCard() {
         })
     } else {
         // Generate a QR code with the URL of the current page
-        VerIDImageCapture.generateQRCode(location.href).then(function(qrCodeURL) {
+        VerIDCameraCapture.generateQRCode(location.href).then(function(qrCodeURL) {
             var img = document.createElement("img")
             img.src = qrCodeURL
             // Display the QR code
