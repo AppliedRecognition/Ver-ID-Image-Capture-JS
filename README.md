@@ -1,3 +1,5 @@
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/AppliedRecognition/Ver-ID-Image-Capture-JS?label=Latest%20release&sort=semver)
+
 # Ver-ID Image Capture JS
 
 The library captures images from mobile device cameras. On desktop browsers it displays a QR code with a link to use on mobiles.
@@ -7,47 +9,53 @@ The library captures images from mobile device cameras. On desktop browsers it d
 In your HTML file include:
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@1.0.5/dist/verIDImageCapture.min.js" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@2.0.0/dist/verIDImageCapture.min.js" />
 ```
 
 ## Usage example
 
 ```javascript
 function scanIDCard() {
-    // Check that the device is capable of capturing adequate images
-    if (VerIDCameraCapture.isCaptureSupported()) {
-        // To scan the front and back of an ID card
-        var settings = {
-            "images": ["front","back"],
-            "prompts": {
-                "front": "Scan the front of your ID card",
-                "back": "Scan the back of your ID card"
-            },
-            "displayCardOutline": true
+    VerIDImageCapture.captureImages(settings).then(function(images) {
+        // The captured image data URLs are now in images.front and images.back
+    }).catch(function(error) {
+        if (error instanceof VerIDImageCapture.Cancellation) {
+            // User cancelled the capture
+            return
         }
-        // Capture the images
-        VerIDCameraCapture.captureImages(settings).then(function(images) {
-            var img = document.createElement("img")
-            img.src = images.front
-            // Display image of the front of the ID card
-            document.body.appendChild(img)
-        }).catch(function(error) {
-            // TODO: Handle the error
-        })
-    } else {
+        var message
+        if (error instanceof VerIDImageCapture.UnsupportedDeviceError) {
+            message = "Your device does not support adequate camera capture. Please scan the QR code with a mobile device."
+        } else if (error instanceof VerIDImageCapture.UnsupportedBrowserError) {
+            message = "Your browser does not support camera capture. Please use a different browser or scan the QR code with a mobile device."
+        } else {
+            alert("Capture failed: "+error.message)
+            return
+        }
+        // The device or browser is not capable to take adequate images
         // Generate a QR code with the URL of the current page
-        VerIDCameraCapture.generateQRCode(location.href).then(function(qrCodeURL) {
+        VerIDImageCapture.generateQRCode(location.href).then(function(qrCodeURL) {
             var img = document.createElement("img")
             img.src = qrCodeURL
             // Display the QR code
             document.body.appendChild(img)
             var text = document.createElement("p")
-            text.innerText = "Please scan the QR code with your mobile device"
+            text.innerText = message
             // Ask the user to use a mobile device
             document.body.appendChild(text)
         }).catch(function(error) {
             // TODO: Handle the error
         })
-    }
+    })
 }
 ```
+
+## Building from source (optional)
+
+Steps to build the library from source:
+
+1. [Install NPM and Node JS](https://www.npmjs.com/get-npm)
+2. Open the [build](./build) folder in a shell
+3. Enter `npm install`
+4. Enter `npm run-script build`
+5. The minified version of the script will be available in [dist/verIDImageCapture.min.js](./dist/verIDImageCapture.min.js)

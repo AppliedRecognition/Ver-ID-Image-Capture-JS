@@ -1,0 +1,147 @@
+#veridCameraPreview {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    font-family: Helvetica, Arial, sans-serif;
+}
+#veridCameraPreview .prompt {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 40px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#veridCameraPreview .cardOutline {
+    position: absolute;
+    width: 90vw;
+    height: calc(90vw * 0.63);
+    /* height: 0px;
+    padding-top: 57%;
+    */
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    margin: auto;
+}
+#veridCameraPreview .cardOutline .corner {
+    position: absolute;
+    width: 15%;
+    height: 0px;
+    padding-top: 15%;
+}
+#veridCameraPreview .cardOutline .corner.top {
+    top: 0px;
+    border-top: 2px solid white;
+}
+#veridCameraPreview .cardOutline .corner.bottom {
+    bottom: 0px;
+    border-bottom: 2px solid white;
+}
+#veridCameraPreview .cardOutline .corner.left {
+    left: 0px;
+    border-left: 2px solid white;
+}
+#veridCameraPreview .cardOutline .corner.right {
+    right: 0px;
+    border-right: 2px solid white;
+}
+#veridCameraPreview .cardOutline .corner.top.left {
+    border-top-left-radius: 25%;
+}
+#veridCameraPreview .cardOutline .corner.top.right {
+    border-top-right-radius: 25%;
+}
+#veridCameraPreview .cardOutline .corner.bottom.left {
+    border-bottom-left-radius: 25%;
+}
+#veridCameraPreview .cardOutline .corner.bottom.right {
+    border-bottom-right-radius: 25%;
+}
+#veridCameraPreview .shutterButton {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 20px;
+    width: 64px;
+    height: 64px;
+    border-radius: 34px;
+    background-color: white;
+    margin: auto;
+    border: 4px solid black;
+    box-shadow: 0px 0px 0px 3px white;
+    cursor: pointer;
+    z-index: 100;
+}
+#veridCameraPreview .shutterButton svg {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+}
+#veridCameraPreview .cancelButton {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    color: white;
+    cursor: pointer;
+    z-index: 99;
+}
+#veridCameraPreview .videoPlayerContainer {
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    bottom: 50px;
+    right: 0px;
+    overflow: hidden;
+}
+#veridCameraPreview .videoPlayerContainer video {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    min-height: 100%;
+}
+@media (min-aspect-ratio: 765/568) {
+    #veridCameraPreview .cardOutline {
+        height: calc(90vh - 100px);
+        width: calc((90vh - 100px) * 1.59);
+    }
+}
+.flipped {
+    transform: rotateY(180deg) !important;
+    transition: transform 2s;    
+}
+.flipAnimation {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    perspective: 500px;
+    z-index: 90;
+}
+.flipAnimation .card { position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+    width: 172px;
+    height: 108px;
+    border-radius: 6px;
+    background-color: white;
+    transform: rotateY(0deg);
+}
