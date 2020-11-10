@@ -90,9 +90,12 @@
                 }
                 var cameraSettings = {
                     "video": {
-                        "width": { "min": 2048 }
+                        "width": { "min": 3000 }
                     },
                     "audio": false
+                }
+                if (settings && settings.minImageWidth) {
+                    cameraSettings.video.width.min = settings.minImageWidth
                 }
                 if (constraints.facingMode === true) {
                     cameraSettings.video.facingMode = {
