@@ -24,36 +24,15 @@
          */
         "generateQRCode": function(text) {
             return new Promise(function(resolve, reject) {
-                function onScriptLoad() {
-                    if (scriptLoaded) {
-                        return
-                    }
-                    scriptLoaded = true
-                    var src = QRCode.generatePNG(text, {
-                        ecclevel: "M",
-                        format: "html",
-                        fillcolor: "#FFFFFF",
-                        textcolor: "#000000",
-                        margin: 4,
-                        modulesize: 8
-                    });
-                    resolve(src)
-                }
-                var scriptLoaded = false
-                var scriptSrc = "https://cdn.jsdelivr.net/gh/englishextra/qrjs2@0.1.7/js/qrjs2.min.js"
-                var scripts = document.getElementsByTagName("script")
-                for (var i=0; i<scripts.length; i++) {
-                    if (scripts[i].getAttribute("src") == scriptSrc) {
-                        onScriptLoad()
-                        return
-                    }
-                }            
-                var script = document.createElement("script")
-                script.type = "text/javascript"
-                script.src = scriptSrc
-                script.onreadystatechange = onScriptLoad
-                script.onload = onScriptLoad
-                document.head.appendChild(script);
+                var src = QRCode.generatePNG(text, {
+                    ecclevel: "M",
+                    format: "html",
+                    fillcolor: "#FFFFFF",
+                    textcolor: "#000000",
+                    margin: 4,
+                    modulesize: 8
+                });
+                resolve(src)
             })
         },
         /**
