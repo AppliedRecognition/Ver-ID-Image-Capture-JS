@@ -43,6 +43,7 @@
          * @param settings.images {array} Array of the names of the images to scan. The array can contain one or more of the following strings: "front" (for the front of an ID card), "back" (for the back of an ID card), "passport" (to scan a passport page)
          * @param settings.prompts {object} Object whose keys correspond to the image names defined in `settings.images`.
          * @param settings.displayCardOutline {boolean} `true` to display an outline (template) of a ISO/IEC 7810 ID-1 card.
+         * @param settings.startDelay {number} Delay the capture by the given number of seconds. The preview will display a countdown.
          * @example // Scan the front and back of an ID card:
          * captureImages({
          *      "images": ["front","back"],
@@ -106,6 +107,8 @@
                     var outline = document.querySelector("#veridCameraPreview .cardOutline")
                     var shutterButton = document.querySelector("#veridCameraPreview .shutterButton")
                     var cancelButton = document.querySelector("#veridCameraPreview .cancelButton")
+                    var countdownDiv
+                    shutterButton.style.display = "block"
 
                     var images = {}
 
@@ -126,6 +129,7 @@
                     }
 
                     var currentImage = 0
+                    var countdownInterval
 
                     function imageName() {
                         if (currentImage < settings.images.length) {
@@ -172,44 +176,79 @@
                         container.parentNode.removeChild(container)
                     }
 
+                    function removeCountdownView() {
+                        if (countdownDiv && countdownDiv.parentNode) {
+                            countdownDiv.parentNode.removeChild(countdownDiv)
+                        }
+                        countdownDiv = null
+                    }
+
                     shutterButton.onclick = function() {
-                        var canvas = document.createElement("canvas")
-                        canvas.width = player.videoWidth
-                        canvas.height = player.videoHeight
-                        var context = canvas.getContext("2d")
-                        context.drawImage(player, 0, 0, player.videoWidth, player.videoHeight)
-                        var dataUrl = canvas.toDataURL("image/jpeg")
-                        var image = imageName()
-                        if (image && !images[image]) {
-                            images[image] = dataUrl
+                        shutterButton.style.display = "none"
+                        function captureImage() {
+                            removeCountdownView()
+                            clearInterval(countdownInterval)
+                            var canvas = document.createElement("canvas")
+                            canvas.width = player.videoWidth
+                            canvas.height = player.videoHeight
+                            var context = canvas.getContext("2d")
+                            context.drawImage(player, 0, 0, player.videoWidth, player.videoHeight)
+                            var dataUrl = canvas.toDataURL("image/jpeg")
+                            var image = imageName()
+                            if (image && !images[image]) {
+                                images[image] = dataUrl
+                            }
+                            currentImage ++
+                            if (prompt && getPrompt()) {
+                                prompt.innerText = getPrompt()
+                            }
+                            if (!Object.values(images).includes(null)) {
+                                closeCameraPreview()
+                                setTimeout(function() {
+                                    resolve(images)
+                                })
+                            } else {
+                                shutterButton.style.display = "block"
+                                var flipAnimationContainer = document.createElement("div")
+                                flipAnimationContainer.className = "flipAnimation"
+
+                                var flipAnimation = document.createElement("div")
+                                flipAnimation.className = "card"
+
+                                flipAnimationContainer.appendChild(flipAnimation)
+                                container.insertBefore(flipAnimationContainer, shutterButton)
+                                setTimeout(function() {
+                                    flipAnimation.classList.add("flipped")
+                                }, 10)
+                                setTimeout(function() {
+                                    container.removeChild(flipAnimationContainer)
+                                }, 2500)
+                            }
                         }
-                        currentImage ++
-                        if (prompt && getPrompt()) {
-                            prompt.innerText = getPrompt()
-                        }
-                        if (!Object.values(images).includes(null)) {
-                            closeCameraPreview()
-                            setTimeout(function() {
-                                resolve(images)
-                            })
+                        if (settings.startDelay && typeof(settings.startDelay) === "number") {
+                            var elapsed = 0
+                            var total = Math.round(settings.startDelay)
+                            function count() {
+                                if (elapsed >= total) {
+                                    captureImage()
+                                } else {
+                                    countdownDiv = document.createElement("div")
+                                    countdownDiv.className = "countdown"
+                                    countdownDiv.innerText = (total - elapsed)+""
+                                    countdownDiv.addEventListener("animationend", removeCountdownView, false)
+                                    container.appendChild(countdownDiv)
+                                }
+                                elapsed ++
+                            }
+                            count()
+                            countdownInterval = setInterval(count, 1000)
                         } else {
-                            var flipAnimationContainer = document.createElement("div")
-                            flipAnimationContainer.className = "flipAnimation"
-
-                            var flipAnimation = document.createElement("div")
-                            flipAnimation.className = "card"
-
-                            flipAnimationContainer.appendChild(flipAnimation)
-                            container.insertBefore(flipAnimationContainer, shutterButton)
-                            setTimeout(function() {
-                                flipAnimation.classList.add("flipped")
-                            }, 10)
-                            setTimeout(function() {
-                                container.removeChild(flipAnimationContainer)
-                            }, 2500)
+                            captureImage()
                         }
                     }
                     cancelButton.onclick = function() {
+                        removeCountdownView()
+                        clearInterval(countdownInterval)
                         closeCameraPreview()
                         setTimeout(function() {
                             reject(new VerIDImageCapture.Cancellation())
