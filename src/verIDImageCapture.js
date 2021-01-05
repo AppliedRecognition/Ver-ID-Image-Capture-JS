@@ -93,6 +93,15 @@
                 }
                 navigator.mediaDevices.getUserMedia(cameraSettings).then(function(stream) {
 
+                    var originalNodes = []
+                    for (var i=0; i<document.body.childNodes.length; i++) {
+                        var node = document.body.childNodes.item(i)
+                        if (node.style) {
+                            originalNodes.push({"node":node,"display":node.style.display})
+                            node.style.display = "none"
+                        }
+                    }
+
                     var style = document.createElement("style")
                     style.innerHTML = css
                     document.head.appendChild(style)
@@ -173,6 +182,10 @@
                             track.stop()
                         })
                         shutterButton.onclick = null;
+                        for (var i=0; i<originalNodes.length; i++) {
+                            originalNodes[i].node.style.display = originalNodes[i].display
+                        }
+                        style.parentNode.removeChild(style)
                         container.parentNode.removeChild(container)
                     }
 
