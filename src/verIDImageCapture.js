@@ -117,7 +117,7 @@
                     var shutterButton = document.querySelector("#veridCameraPreview .shutterButton")
                     var cancelButton = document.querySelector("#veridCameraPreview .cancelButton")
                     var countdownDiv
-                    shutterButton.style.display = "block"
+                    shutterButton.style.display = "flex"
 
                     var images = {}
 
@@ -221,7 +221,7 @@
                                     resolve(images)
                                 })
                             } else {
-                                shutterButton.style.display = "block"
+                                shutterButton.style.display = "flex"
                                 var flipAnimationContainer = document.createElement("div")
                                 flipAnimationContainer.className = "flipAnimation"
 
