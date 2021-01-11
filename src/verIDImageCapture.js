@@ -17,6 +17,10 @@
             this.name = "Cancellation"
             this.message = "Capture cancelled by user"
         },
+        "PermissionDenied": function() {
+            this.name = "PermissionDenied"
+            this.message = "Camera permission denied by user"
+        },
         /**
          * @member {function}
          * Generate a QR code using given text
@@ -64,20 +68,22 @@
                 if (!navigator.mediaDevices) {
                     return reject(new VerIDImageCapture.UnsupportedBrowserError())
                 }
-                var constraints = navigator.mediaDevices.getSupportedConstraints()
-                if (constraints.width !== true || constraints.height !== true) {
-                    return reject(new VerIDImageCapture.UnsupportedBrowserError())
-                }
                 var cameraSettings = {
-                    "video": {
-                        "width": { "min": 3000 }
-                    },
+                    "video": true,
                     "audio": false
                 }
-                if (settings && settings.minImageWidth) {
-                    cameraSettings.video.width.min = settings.minImageWidth
+                var constraints = navigator.mediaDevices.getSupportedConstraints()
+                if (constraints.width === true) {
+                    if (settings && settings.minImageWidth) {
+                        cameraSettings.video = {"width":{"min":settings.minImageWidth}}
+                    }
+                } else {
+                    return reject(new VerIDImageCapture.UnsupportedBrowserError())
                 }
                 if (constraints.facingMode === true) {
+                    if (cameraSettings.video === true) {
+                        cameraSettings.video = {}
+                    }
                     cameraSettings.video.facingMode = {
                         "exact": (settings.useFrontCamera ? "user" : "environment")
                     }
@@ -269,9 +275,13 @@
                     }                
                 }).catch(function(error) {
                     if (error instanceof OverconstrainedError) {
+                        if (error.constraint == "width" && settings.minImageWidth) {
+                            delete settings.minImageWidth
+                            return VerIDImageCapture.captureImages(settings)
+                        }
                         error = new VerIDImageCapture.UnsupportedDeviceError()
                     } else if (error && error.name == "NotAllowedError") {
-                        error = new VerIDImageCapture.Cancellation()
+                        error = new VerIDImageCapture.PermissionDenied()
                     }
                     return reject(error)
                 })

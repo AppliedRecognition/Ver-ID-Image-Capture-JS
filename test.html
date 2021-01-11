@@ -22,7 +22,8 @@
                     "back": "Scan the back of your ID card"
                 },
                 "displayCardOutline": true,
-                "startDelay": 3
+                "startDelay": 3,
+                "minImageWidth": 2000
             }
             // Capture the images
             VerIDImageCapture.captureImages(settings).then(function(images) {
@@ -32,7 +33,7 @@
                     img.style.display = "block"
                 })
             }).catch(function(error) {
-                if (error instanceof VerIDImageCapture.Cancellation) {
+                if (error instanceof VerIDImageCapture.Cancellation || error instanceof VerIDImageCapture.PermissionDenied) {
                     // User cancelled the capture
                     return
                 }
