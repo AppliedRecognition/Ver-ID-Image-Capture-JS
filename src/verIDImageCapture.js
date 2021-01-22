@@ -48,6 +48,7 @@
          * @param settings.prompts {object} Object whose keys correspond to the image names defined in `settings.images`.
          * @param settings.displayCardOutline {boolean} `true` to display an outline (template) of a ISO/IEC 7810 ID-1 card.
          * @param settings.startDelay {number} Delay the capture by the given number of seconds. The preview will display a countdown.
+         * @param settings.minImageWidth {number} Minimum required width of the captured image (in pixels).
          * @example // Scan the front and back of an ID card:
          * captureImages({
          *      "images": ["front","back"],
@@ -225,7 +226,7 @@
                                 closeCameraPreview()
                                 setTimeout(function() {
                                     resolve(images)
-                                })
+                                }, 1)
                             } else {
                                 shutterButton.style.display = "flex"
                                 var flipAnimationContainer = document.createElement("div")
@@ -271,13 +272,14 @@
                         closeCameraPreview()
                         setTimeout(function() {
                             reject(new VerIDImageCapture.Cancellation())
-                        })
+                        }, 1)
                     }                
                 }).catch(function(error) {
                     if (error instanceof OverconstrainedError) {
                         if (error.constraint == "width" && settings.minImageWidth) {
                             delete settings.minImageWidth
-                            return VerIDImageCapture.captureImages(settings)
+                            VerIDImageCapture.captureImages(settings).then(resolve).catch(reject)
+                            return
                         }
                         error = new VerIDImageCapture.UnsupportedDeviceError()
                     } else if (error && error.name == "NotAllowedError") {
