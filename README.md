@@ -37,7 +37,7 @@ button.innerText = "Capture image"
 document.body.appendChild(button)
 
 // Import QR code generator function
-import generateQRCode from "https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@3.0.0/dist/qtCodeGenerator.min.js"
+import generateQRCode from "https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@3.0.0/dist/qrCodeGenerator.min.js"
 
 // Generate a QR code with the page URL to direct the user to an alternative device
 generateQRCode(location.href).then(function(qrCode) {
