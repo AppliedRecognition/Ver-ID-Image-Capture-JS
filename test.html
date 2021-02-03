@@ -4,25 +4,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Test</title>
         <style type="text/css">
-        img.captured {
+        #captures img.captured {
             display: none;
             max-width: calc(100% - 60px);
             margin: 30px;
         }
+        body {
+            background-color: #efefef;
+        }
         </style>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/englishextra/qrjs2@0.1.7/js/qrjs2.min.js"></script>
-        <script src="dist/verIDImageCapture.min.js"></script>
+        <script type="module" src="dist/verIDImageCapture.min.js"></script>
         <script type="text/javascript">
         window.onload = () => {
             // To scan the front and back of an ID card
             var settings = {
                 "images": ["front","back"],
                 "prompts": {
-                    "front": "Scan the front of your ID card",
-                    "back": "Scan the back of your ID card"
+                    "front": "Capture the front of your ID card",
+                    "back": "Capture the back of your ID card"
                 },
                 "displayCardOutline": true,
-                "minImageWidth": 2000
+                "minImageWidth": 2000,
+                "link": location.href
             }
             // Capture the images
             VerIDImageCapture.captureImages(settings).then(function(images) {
@@ -63,7 +67,9 @@
         </script>
     </head>
     <body>
-        <img class="captured front" alt="Front of an ID document" />
-        <img class="captured back" alt="Back of an ID document" />
+        <div id="captures">
+            <img class="captured front" alt="Front of an ID document" />
+            <img class="captured back" alt="Back of an ID document" />
+        </div>
     </body>
 </html>

@@ -1,171 +1,51 @@
-#veridCameraPreview {
-    position: fixed;
-    left: 0px;
+#veridCaptureContainer {
+    position: absolute;
     top: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: black;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 16px;
+}
+#veridCaptureContainer {
     font-family: Helvetica, Arial, sans-serif;
 }
-#veridCameraPreview .prompt {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    height: 40px;
-    background-color: black;
-    color: white;
+#veridCaptureContainer div.dialog {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 300px;
+    margin: auto;
     text-align: center;
-    padding: 5px;
-    vertical-align: middle;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#veridCameraPreview .cardOutline {
-    position: absolute;
-    width: 90vw;
-    height: calc(90vw * 0.63);
-    /* height: 0px;
-    padding-top: 57%;
-    */
-    top: 0px;
-    right: 0px;
-    left: 0px;
-    bottom: 0px;
-    margin: auto;
-}
-#veridCameraPreview .cardOutline .corner {
-    position: absolute;
-    width: 15%;
-    height: 0px;
-    padding-top: 15%;
-}
-#veridCameraPreview .cardOutline .corner.top {
-    top: 0px;
-    border-top: 2px solid white;
-}
-#veridCameraPreview .cardOutline .corner.bottom {
-    bottom: 0px;
-    border-bottom: 2px solid white;
-}
-#veridCameraPreview .cardOutline .corner.left {
-    left: 0px;
-    border-left: 2px solid white;
-}
-#veridCameraPreview .cardOutline .corner.right {
-    right: 0px;
-    border-right: 2px solid white;
-}
-#veridCameraPreview .cardOutline .corner.top.left {
-    border-top-left-radius: 25%;
-}
-#veridCameraPreview .cardOutline .corner.top.right {
-    border-top-right-radius: 25%;
-}
-#veridCameraPreview .cardOutline .corner.bottom.left {
-    border-bottom-left-radius: 25%;
-}
-#veridCameraPreview .cardOutline .corner.bottom.right {
-    border-bottom-right-radius: 25%;
-}
-#veridCameraPreview .shutterButton {
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    bottom: 20px;
-    width: 64px;
-    height: 64px;
-    border-radius: 34px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
     background-color: white;
-    margin: auto;
-    border: 4px solid black;
-    box-shadow: 0px 0px 0px 3px white;
-    cursor: pointer;
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 32px;
 }
-#veridCameraPreview .cancelButton {
+#veridCaptureContainer details {
+    margin-top: 32px;
+}
+#veridCaptureContainer a, #veridCaptureContainer details summary {
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: #06c;
+}
+#veridCaptureContainer a.triggerButton {
+    display: block;
+}
+#veridCaptureContainer a.cancelButton {
     position: absolute;
-    left: 20px;
-    bottom: 20px;
+    top: 8px;
+    right: 8px;
     color: white;
-    cursor: pointer;
-    z-index: 99;
+    background-color: #06c;
+    padding: 2px 4px;
+    border-radius: 8px;
 }
-#veridCameraPreview .videoPlayerContainer {
-    position: absolute;
-    top: 50px;
-    left: 0px;
-    bottom: 50px;
-    right: 0px;
-    overflow: hidden;
-}
-#veridCameraPreview .videoPlayerContainer video {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+#veridCaptureContainer img.captured {
+    display: block;
     width: 100%;
-    min-height: 100%;
-}
-#veridCameraPreview .countdown {
-    position: absolute;
-    display: flex;
-    left: 0px;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: center;
-    text-align: center;
-    font-size: 144pt;
-    color: white;
-    text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
-    animation-duration: 800ms;
-    animation-name: fadeOut;
-}
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-@media (min-aspect-ratio: 765/568) {
-    #veridCameraPreview .cardOutline {
-        height: calc(90vh - 100px);
-        width: calc((90vh - 100px) * 1.59);
-    }
-}
-.flipped {
-    transform: rotateY(180deg) !important;
-    transition: transform 2s;    
-}
-.flipAnimation {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    perspective: 500px;
-    z-index: 90;
-}
-.flipAnimation .card { position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    margin: auto;
-    width: 172px;
-    height: 108px;
-    border-radius: 6px;
-    background-color: white;
-    transform: rotateY(0deg);
+    border-radius: 8px;
+    margin-bottom: 16px;
 }
