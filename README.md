@@ -49,7 +49,7 @@ generateQRCode(location.href).then(function(qrCode) {
 ```
 
 ## Demo
-[Browser demo](https://AppliedRecognition.github.io/Ver-ID-Image-Capture-JS/sample.html)
+[Browser demo](https://appliedrecognition.github.io/Ver-ID-Image-Capture-JS/sample.html)
 
 ## Building from source (optional)
 
