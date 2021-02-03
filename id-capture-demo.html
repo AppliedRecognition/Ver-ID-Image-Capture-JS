@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Image capture sample</title>
+        <style type="text/css">
+        div.button {
+            cursor: pointer;
+            margin-bottom: 32px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            width: 240px;
+            padding: 8px;
+            text-align: center;
+            position: relative;
+            left: 0px;
+            right: 0px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #qrCode {
+            display: none;
+        }
+        body {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            height: 100%;
+        }
+        a, summary {
+            color: #36c;
+        }
+        #capture {
+            text-align: center;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        #content {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+        }
+        </style>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/englishextra/qrjs2@0.1.7/js/qrjs2.min.js"></script>
+    </head>
+    <body>
+        <div id="content">
+            <div id="capture">
+                <h1>Driver's licence</h1>
+                <div class="button front">
+                    <a class="capture">Scan front</a>
+                    <span class="result"></span>
+                </div>
+                <div class="button back">
+                    <a class="capture">Scan back</a>
+                    <span class="result"></span>
+                </div>
+                <details id="qrCode">
+                    <summary>Use another device</summary>
+                    <img alt="QR code" />
+                    <p>Scan the QR code to continue on a mobile</p>
+                </details>
+            </div>
+        </div>
+        <script type="module">
+            import captureImage from "https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@3.0.0/dist/imageCapture.min.js"
+            import generateQRCode from "https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@3.0.0/dist/qrCodeGenerator.min.js"
+
+            if (location.hash != "#fromqrcode") {
+                generateQRCode(location.href+"#fromqrcode").then(function(qrCode) {
+                    document.querySelector("#qrCode img").src = qrCode
+                    document.querySelector("#qrCode").style.display = "block"
+                }).catch(function(error) {
+                    // Ignore
+                })
+            }
+            var photos = {}
+            document.querySelectorAll("div.button").forEach(function(button) {
+                button.onclick = function() {
+                    captureImage().then(function(dataURL) {
+                        button.querySelector("span.result").innerText = "(photo taken)"
+                        if (button.classList.contains("front")) {
+                            photos["front"] = dataURL
+                        } else {
+                            photos["back"] = dataURL
+                        }
+                        if (Object.keys(photos).length == 2) {
+                            alert("Thank you. All done.")                            
+                        }
+                    }).catch(function(error) {
+                        alert("Capture failed"+(error && error.message ? ": "+error.message : ""))
+                    })
+                }
+            })
+        </script>
+    </body>
+</html>
