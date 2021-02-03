@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Image capture sample</title>
+        <style type="text/css">
+        #result {
+            display: none;
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 12px;
+        }
+        #qrCode {
+            display: none;
+        }
+        body {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            height: 100%;
+        }
+        #captureButton {
+            display: block;
+            margin-bottom: 32px;
+        }
+        a, summary {
+            color: #36c;
+        }
+        #capture {
+            text-align: center;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        #content {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+        }
+        </style>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/englishextra/qrjs2@0.1.7/js/qrjs2.min.js"></script>
+    </head>
+    <body>
+        <div id="content">
+            <div id="capture">
+                <img id="result" alt="ID card image" />
+                <a id="captureButton" href="javascript:void(0)">Capture image</a>
+                <details id="qrCode">
+                    <summary>Use another device</summary>
+                    <img alt="QR code" />
+                    <p>Scan the QR code to continue on a mobile</p>
+                </details>
+            </div>
+        </div>
+        <script type="module">
+            import captureImage from "./dist/imageCapture.min.js"
+            import generateQRCode from "./dist/qrCodeGenerator.min.js"
+
+            if (location.hash != "#fromqrcode") {
+                generateQRCode(location.href+"#fromqrcode").then(function(qrCode) {
+                    document.querySelector("#qrCode img").src = qrCode
+                    document.querySelector("#qrCode").style.display = "block"
+                }).catch(function(error) {
+                    // Ignore
+                })
+            }
+            document.querySelector("#captureButton").onclick = function() {
+                captureImage().then(function(dataURL) {
+                    var img = document.querySelector("#result")
+                    img.src = dataURL
+                    img.style.display = "inline-block"
+                }).catch(function(error) {
+                    alert("Capture failed"+(error && error.message ? ": "+error.message : ""))
+                })
+            }
+        </script>
+    </body>
+</html>
