@@ -48,6 +48,9 @@ generateQRCode(location.href).then(function(qrCode) {
 }).catch()
 ```
 
+## Demo
+[Browser demo](https://AppliedRecognition.github.io/Ver-ID-Image-Capture-JS/sample.html)
+
 ## Building from source (optional)
 
 Steps to build the library from source:
