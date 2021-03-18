@@ -16,7 +16,7 @@ In your HTML file include:
 
 ```javascript
 // Import capture function
-import captureImage from "https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@3.0.0/dist/imageCapture.min.js"
+import captureImage from "https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@3.1.0/dist/imageCapture.min.js"
 
 // Create a button
 var button = document.createElement("a")
@@ -45,7 +45,7 @@ button.innerText = "Capture image"
 document.body.appendChild(button)
 
 // Import QR code generator function
-import generateQRCode from "https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@3.0.0/dist/qrCodeGenerator.min.js"
+import generateQRCode from "https://cdn.jsdelivr.net/gh/AppliedRecognition/Ver-ID-Image-Capture-JS@3.1.0/dist/qrCodeGenerator.min.js"
 
 // Generate a QR code with the page URL to direct the user to an alternative device
 generateQRCode(location.href).then(function(qrCode) {
@@ -76,9 +76,9 @@ Only applicable if both `size.width` and `size.height` are specified. Otherwise 
 
 Possible values (red rectangle denotes specified width and height):
 
-- **fit** (default) – scale the image to fit into the given size preserving the image's aspect ratio<br /> ![Original](./doc_images/Diana_Ross_1976.jpg) ![Fit](./doc_images/fit.jpg)
-- **fill** – scale the image to fill the given size preserving the image's aspect ratio<br /> ![Original](./doc_images/Diana_Ross_1976.jpg) ![Fill](./doc_images/fill.jpg)
-- **stretch** - scale the image to stretch into the given size<br /> ![Original](./doc_images/Diana_Ross_1976.jpg) ![Stretch](./doc_images/stretch.jpg)
+- **fit** (default) – scale the image to fit into the given size preserving the image's aspect ratio<br />![Original](./doc_images/Diana_Ross_1976.jpg) ![Fit](./doc_images/fit.jpg)
+- **fill** – scale the image to fill the given size preserving the image's aspect ratio<br />![Original](./doc_images/Diana_Ross_1976.jpg) ![Fill](./doc_images/fill.jpg)
+- **stretch** - scale the image to stretch into the given size<br />![Original](./doc_images/Diana_Ross_1976.jpg) ![Stretch](./doc_images/stretch.jpg)
 
 *Image [Motown Records](https://commons.wikimedia.org/wiki/File:Diana_Ross_1976.jpg), Public domain, via Wikimedia Commons*
 
