@@ -66,7 +66,7 @@
                 })
             }
             document.querySelector("#captureButton").onclick = function() {
-                captureImage().then(function(dataURL) {
+                captureImage({"size":{"width":600,"height":600},"scaling":""}).then(function(dataURL) {
                     var img = document.querySelector("#result")
                     img.src = dataURL
                     img.style.display = "inline-block"
